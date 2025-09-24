@@ -203,8 +203,6 @@ def lab1():
                 <a href="/">Корень сайта</a>
                 <h2>Список роутов</h2>
                 <ul>
-                    <li><a href="/">Главное меню</a></li>
-                    <li><a href="/index">Главное меню</a></li>
                     <li><a href="/lab1">Первая лабораторная</a></li>
                     <li><a href="/lab1/web">Страница с кодом html</a></li>
                     <li><a href="/lab1/author">Автор</a></li>
