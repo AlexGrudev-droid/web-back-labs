@@ -7,15 +7,6 @@ def web():
     return """<!doctype html>
         <html>
            <body>
-<<<<<<< HEAD
-                <h1>web-сервер на flask</h1>
-                <a href="/author">author</a>
-           </body> 
-        </html>""", 200, {
-            'X-Server': 'sample',
-            'Content-Type': 'text/plain; charset=utf-8'
-        }
-=======
                <h1>web-сервер на flask</h1>
                <a href="/lab1/author">author</a>
            </body>
@@ -23,7 +14,6 @@ def web():
             'X-Server': 'sample',
             'Content-Type': 'text/plain; charset=utf-8'
             }
->>>>>>> ba78b9e6b946d3a2f5fcb9eb0d6e5573247cf3c0
 
 @app.route('/lab1/author')
 def author():
