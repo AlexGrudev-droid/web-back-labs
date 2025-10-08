@@ -496,3 +496,33 @@ def books():
         {"author": "Дж. Р. Р. Толкин", "title": "Хоббит", "genre": "Фэнтези", "pages": 304},
     ]
     return render_template('books.html', books=books_data)
+
+@app.route('/lab2/gallery/')
+def gallery():
+    cats = [
+        {"name": "Васька", "slug": "cat1", "desc": "Профессиональный мышелов."},
+        {"name": "Мурзик", "slug": "cat2", "desc": "Эксперт по лежанию на диване."},
+        {"name": "Рыжик", "slug": "cat3", "desc": "Специалист по разбиванию ваз."},
+        {"name": "Сёма", "slug": "cat4", "desc": "Мастер побегов из дома."},
+        {"name": "Барсик", "slug": "cat5", "desc": "Критик кулинарных шедевров."},
+        {"name": "Кузя", "slug": "cat6", "desc": "Ночной дегустатор еды."},
+        {"name": "Пушок", "slug": "cat7", "desc": "Гуру мурлыкания."},
+        {"name": "Тимоша", "slug": "cat8", "desc": "Разрушитель штор."},
+        {"name": "Гаврюша", "slug": "cat9", "desc": "Охотник за мухами."},
+        {"name": "Степа", "slug": "cat10", "desc": "Знаток птичьего пения."},
+        {"name": "Феня", "slug": "cat11", "desc": "Сомелье кормов."},
+        {"name": "Зорро", "slug": "cat12", "desc": "Маскировщик под темноту."},
+        {"name": "Бублик", "slug": "cat13", "desc": "Любитель свернуться калачиком."},
+        {"name": "Цезарь", "slug": "cat14", "desc": "Повелитель подоконников."},
+        {"name": "Лучик", "slug": "cat15", "desc": "Искатель теплых мест."},
+        {"name": "Боня", "slug": "cat16", "desc": "Профессиональный будильник."},
+        {"name": "Марсик", "slug": "cat17", "desc": "Исследователь пакетов."},
+        {"name": "Санни", "slug": "cat18", "desc": "Солнечный зайчик в образе кота."},
+        {"name": "Филя", "slug": "cat19", "desc": "Консультант по сну."},
+        {"name": "Шпуля", "slug": "cat20", "desc": "Мастер внезапных атак."},
+    ]
+    # для каждого кота ожидаем файл static/images/cats/<slug>.jpg
+    for item in cats:
+        item["img_url"] = url_for('static',
+                                  filename=f'images/cats/{item["slug"]}.jpg')
+    return render_template('gallery.html', items=cats, title="Котики")
