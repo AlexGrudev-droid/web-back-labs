@@ -8,22 +8,22 @@
             max-width: 400px;
             margin: 24px auto;
             padding: 20px;
-            border: 5px solid #e2e8f0;
+            border: 1px solid #e2e8f0;
             border-radius: 12px;
             background: #ffffff;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
         }
         div { 
-            margin-bottom: 16px; 
+            margin-bottom: 20px; 
         }
         label { 
             display: block; 
-            margin-bottom: 6px; 
+            margin-bottom: 8px; 
             font-weight: 600; 
             color: #374151;
             font-size: 14px;
         }
-        select, input[type="color"] {
+        select {
             padding: 10px 12px;
             width: 100%;
             border-radius: 8px;
@@ -32,13 +32,50 @@
             transition: all 0.2s ease;
             font-size: 14px;
         }
-        select:focus, input[type="color"]:focus {
+        select:focus {
             outline: none;
             border-color: #2563eb;
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
+        .color-picker {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        .color-square {
+            width: 60px;
+            height: 60px;
+            border: 3px solid #e2e8f0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        .color-square:hover {
+            transform: scale(1.05);
+            border-color: #2563eb;
+        }
+        .color-square input {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+        .color-preview {
+            width: 60px;
+            height: 60px;
+            border: 3px solid #e2e8f0;
+            border-radius: 12px;
+            background: var(--color-value);
+        }
+        .color-value {
+            font-size: 14px;
+            color: #64748b;
+            font-weight: 500;
+        }
         button {
-            padding: 10px 18px;
+            padding: 12px 18px;
             border: none;
             border-radius: 8px;
             background-color: #2563eb;
@@ -78,13 +115,25 @@
     <h1>Настройки внешнего вида</h1>
     <form>
         <div>
-            <label for="color">Цвет текста:</label>
-            <input type="color" id="color" name="color" value="{{ color or '#000000' }}">
+            <label>Цвет текста:</label>
+            <div class="color-picker">
+                <div class="color-square">
+                    <input type="color" id="color" name="color" value="{{ color or '#000000' }}">
+                    <div class="color-preview" style="--color-value: {{ color or '#000000' }}"></div>
+                </div>
+                <div class="color-value" id="color-value">{{ color or '#000000' }}</div>
+            </div>
         </div>
 
         <div>
-            <label for="bgcolor">Цвет фона:</label>
-            <input type="color" id="bgcolor" name="bgcolor" value="{{ bgcolor or '#ffffff' }}">
+            <label>Цвет фона:</label>
+            <div class="color-picker">
+                <div class="color-square">
+                    <input type="color" id="bgcolor" name="bgcolor" value="{{ bgcolor or '#ffffff' }}">
+                    <div class="color-preview" style="--color-value: {{ bgcolor or '#ffffff' }}"></div>
+                </div>
+                <div class="color-value" id="bgcolor-value">{{ bgcolor or '#ffffff' }}</div>
+            </div>
         </div>
 
         <div>
@@ -113,4 +162,17 @@
     </form>
 
     <a class="reset-link" href="{{ url_for('lab3.clear_cookies') }}">Сбросить все настройки</a>
+
+    <script>
+        // Обновление отображаемого значения цвета
+        document.getElementById('color').addEventListener('input', function(e) {
+            document.getElementById('color-value').textContent = e.target.value;
+            document.querySelector('#color + .color-preview').style.setProperty('--color-value', e.target.value);
+        });
+
+        document.getElementById('bgcolor').addEventListener('input', function(e) {
+            document.getElementById('bgcolor-value').textContent = e.target.value;
+            document.querySelector('#bgcolor + .color-preview').style.setProperty('--color-value', e.target.value);
+        });
+    </script>
 {% endblock %}
