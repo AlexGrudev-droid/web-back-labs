@@ -170,7 +170,7 @@ def error404():
 
 
 @lab1.route('/lab1')
-def lab1():
+def lab():
     return '''<!doctype html>
         <html>
             <head>
