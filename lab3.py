@@ -242,3 +242,126 @@ def ticket_submit():
         price=price,
         breakdown=breakdown
     )
+
+
+PRODUCTS = [
+    {"name": "Galaxy Watch 6", "price": 29990, "brand": "Samsung", "color": "черный"},
+    {"name": "Apple Watch Series 9", "price": 45990, "brand": "Apple",   "color": "серебристый"},
+    {"name": "Pixel Watch 2", "price": 32990, "brand": "Google",  "color": "черный"},
+    {"name": "Mi Watch S3", "price": 12990, "brand": "Xiaomi",  "color": "синий"},
+    {"name": "Realme Watch 3", "price": 8990, "brand": "Realme",  "color": "золотой"},
+    {"name": "Nothing Watch (1)", "price": 19990, "brand": "Nothing", "color": "черный"},
+    {"name": "Moto 360", "price": 24990, "brand": "Motorola","color": "зеленый"},
+    {"name": "Honor Watch GS 3", "price": 18990, "brand": "Honor",   "color": "серебристый"},
+    {"name": "Poco Watch", "price": 7990, "brand": "Xiaomi",  "color": "белый"},
+    {"name": "Galaxy Watch FE", "price": 15990, "brand": "Samsung", "color": "голубой"},
+    {"name": "Apple Watch SE", "price": 29990, "brand": "Apple",   "color": "красный"},
+    {"name": "Fitbit Versa 4", "price": 22990, "brand": "Google",  "color": "мятный"},
+    {"name": "Infinix Watch X", "price": 6990, "brand": "Infinix", "color": "черный"},
+    {"name": "Tecno Watch 2", "price": 5990, "brand": "Tecno",   "color": "синий"},
+    {"name": "Vivo Watch 3", "price": 17990, "brand": "Vivo",    "color": "черный"},
+    {"name": "OPPO Watch 4", "price": 21990, "brand": "OPPO",    "color": "серый"},
+    {"name": "Sony SmartWatch 5", "price": 34990, "brand": "Sony",    "color": "белый"},
+    {"name": "Nokia Watch Pro", "price": 14990, "brand": "Nokia",   "color": "фиолетовый"},
+    {"name": "Asus ZenWatch 4", "price": 27990, "brand": "ASUS",    "color": "черный"},
+    {"name": "OnePlus Watch 2", "price": 23990, "brand": "OnePlus", "color": "зеленый"},
+    {"name": "Huawei Watch GT 4", "price": 19990, "brand": "Huawei",  "color": "черный"},
+    {"name": "Meizu Watch 2", "price": 15990, "brand": "Meizu",   "color": "серебристый"},
+]
+
+
+def overall_min_max():
+    prices = [p["price"] for p in PRODUCTS]
+    return (min(prices), max(prices))
+
+
+def apply_filters(items, min_p, max_p):
+    result = []
+    for it in items:
+        price = it["price"]
+        if min_p is not None and price < min_p:
+            continue
+        if max_p is not None and price > max_p:
+            continue
+        result.append(it)
+    return result
+
+
+@lab3.route('/lab3/products', methods=['GET'])
+def products_filter():
+    # Глобальные мин/макс для плейсхолдеров
+    glob_min, glob_max = overall_min_max()
+
+    # Кнопка сброса: очищаем куки и показываем все
+    if request.args.get('action') == 'reset':
+        resp = make_response(render_template(
+            'lab3/products.html',
+            items=PRODUCTS,
+            count=len(PRODUCTS),
+            glob_min=glob_min, glob_max=glob_max,
+            cur_min='', cur_max='',  # поля пустые
+            message=None
+        ))
+        resp.delete_cookie('min_price')
+        resp.delete_cookie('max_price')
+        return resp
+
+    # Берем значения: сначала из query, если пусто — из cookie
+    min_s = request.args.get('min', default=None)
+    max_s = request.args.get('max', default=None)
+
+    # Если пользователь не передал параметры, но есть куки — подставим их
+    if (min_s is None or min_s == ''):
+        min_s = request.cookies.get('min_price', default='')
+    if (max_s is None or max_s == ''):
+        max_s = request.cookies.get('max_price', default='')
+
+    # Преобразуем к числам (пустые оставляем None)
+    def to_int_or_none(s):
+        if s is None or s == '':
+            return None
+        try:
+            return int(s)
+        except:
+            return None
+
+    min_v = to_int_or_none(min_s)
+    max_v = to_int_or_none(max_s)
+
+    # Если оба заданы и перепутаны — меняем местами
+    if min_v is not None and max_v is not None and min_v > max_v:
+        min_v, max_v = max_v, min_v
+        # и в форме поменяем местами
+        min_s, max_s = (str(min_v), str(max_v))
+
+    # Фильтруем (если оба None — покажем все)
+    filtered = apply_filters(PRODUCTS, min_v, max_v)
+    message = None
+    if len(filtered) == 0:
+        message = "Не найдено ни одних часов"
+
+    # Готовим ответ и ставим куки, если пользователь передал фильтры
+    resp = make_response(render_template(
+        'lab3/products.html',
+        items=filtered,
+        count=len(filtered),
+        glob_min=glob_min, glob_max=glob_max,
+        cur_min=min_s or '',
+        cur_max=max_s or '',
+        message=message
+    ))
+
+    # Сохраняем куки только если хотя бы одно из значений было в запросе
+    # (т.е. человек нажал «Искать»)
+    if 'min' in request.args or 'max' in request.args:
+        # Пустые очищаем
+        if min_v is None:
+            resp.delete_cookie('min_price')
+        else:
+            resp.set_cookie('min_price', str(min_v))
+        if max_v is None:
+            resp.delete_cookie('max_price')
+        else:
+            resp.set_cookie('max_price', str(max_v))
+
+    return resp
