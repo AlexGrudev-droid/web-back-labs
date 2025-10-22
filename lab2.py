@@ -145,5 +145,5 @@ def gallery():
     # для каждого кота ожидаем файл static/images/cats/<slug>.jpg
     for item in cats:
         item["img_url"] = url_for('static',
-                                  filename=f'images/cats/{item["slug"]}.jpg')
+                                  filename=f'lab2/images/cats/{item["slug"]}.jpg')
     return render_template('lab2/gallery.html', items=cats, title="Котики")
