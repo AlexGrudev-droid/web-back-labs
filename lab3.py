@@ -17,7 +17,7 @@ def cookie():
     resp = make_response(redirect('/lab3/'))
     resp.set_cookie('name', 'Alex', max_age=5)
     resp.set_cookie('age', '21')
-    resp.set_cookie('name_color', 'yellow')
+    resp.set_cookie('name_color', 'blue')
     return resp
 
 

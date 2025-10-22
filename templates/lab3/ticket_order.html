@@ -6,105 +6,135 @@
 
     <style>
         body { 
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; 
-            background: #ffffff; 
-            padding: 24px; 
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; 
+            background: #f8f9fa; 
+            padding: 32px; 
+            color: #2d3748;
         }
         h1 { 
             text-align: center; 
-            color: #000000; 
-            margin-bottom: 24px;
-            font-weight: 800;
-            font-size: 28px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            color: #2d3748; 
+            margin-bottom: 32px;
+            font-weight: 600;
+            font-size: 24px;
+            letter-spacing: -0.5px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 12px;
+            max-width: 520px;
+            margin-left: auto;
+            margin-right: auto;
         }
         form { 
             background: #ffffff; 
-            padding: 28px; 
-            border-radius: 0; 
+            padding: 32px; 
+            border-radius: 8px; 
             max-width: 520px; 
             margin: 0 auto; 
-            box-shadow: 0 0 0 2px #000000; 
-            border: 2px solid #ff0000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08); 
+            border: 1px solid #e2e8f0;
+            border-top: 4px solid #667eea;
         }
         p { 
-            margin-bottom: 20px; 
+            margin-bottom: 24px; 
         }
         input[type="text"], input[type="number"], input[type="date"], select {
             width: 100%; 
-            padding: 12px 14px; 
-            border: 2px solid #000000; 
-            border-radius: 0;
+            padding: 12px 16px; 
+            border: 1.5px solid #cbd5e0; 
+            border-radius: 6px;
             font-size: 15px;
             background: #ffffff;
-            color: #000000;
-            transition: border-color 0.2s;
+            color: #2d3748;
+            transition: all 0.2s ease;
+            font-family: inherit;
         }
         input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus, select:focus {
             outline: none;
-            border-color: #ff0000;
-            box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.2);
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            background: #f7fafc;
         }
         input[type="radio"] { 
-            width: auto; 
+            width: 18px;
+            height: 18px;
             margin: 0; 
-            accent-color: #ff0000;
+            accent-color: #667eea;
         }
         .radios { 
             display: flex; 
-            gap: 20px; 
+            gap: 24px; 
             align-items: center; 
         }
         .radios label { 
             display: flex; 
             align-items: center; 
-            gap: 8px; 
+            gap: 10px; 
             margin: 0; 
             cursor: pointer;
-            font-weight: 600;
-            color: #000000;
+            font-weight: 500;
+            color: #4a5568;
+            transition: color 0.2s;
+        }
+        .radios label:hover {
+            color: #667eea;
         }
         button { 
-            background: #000000; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
             color: #ffffff; 
-            border: 2px solid #ff0000; 
-            padding: 14px 20px; 
-            border-radius: 0; 
+            border: none; 
+            padding: 14px 24px; 
+            border-radius: 6px; 
             cursor: pointer; 
-            font-size: 16px;
-            font-weight: 700;
-            transition: all 0.2s;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.2s ease;
             width: 100%;
+            letter-spacing: 0.3px;
+            position: relative;
+            overflow: hidden;
+        }
+        button:hover { 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        ul { 
+            color: #e53e3e; 
+            list-style: none; 
+            margin-bottom: 24px; 
+            padding: 16px 20px;
+            background: #fff5f5;
+            border-radius: 6px;
+            border: 1px solid #fed7d7;
+            border-left: 4px solid #e53e3e;
+            font-weight: 500;
+        }
+        li {
+            margin: 8px 0;
+            padding-left: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        li:before {
+            content: "•";
+            color: #e53e3e;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        label {
+            color: #4a5568;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: block;
+            font-size: 14px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-        button:hover { 
-            background: #ff0000; 
-            color: #ffffff;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);
-        }
-        ul { 
-            color: #ff0000; 
-            list-style: none; 
-            margin-bottom: 20px; 
-            padding: 16px;
-            background: #ffffff;
-            border-radius: 0;
-            border: 2px solid #ff0000;
-            font-weight: 600;
-        }
-        li {
-            margin: 6px 0;
-            padding-left: 12px;
-            border-left: 3px solid #ff0000;
-        }
-        label {
-            color: #000000;
-            font-weight: 600;
-            margin-bottom: 6px;
-            display: block;
+        .form-group {
+            margin-bottom: 20px;
         }
     </style>
 
