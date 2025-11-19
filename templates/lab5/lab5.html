@@ -142,6 +142,10 @@
         <li><a href="/lab5/create">Создать статью</a></li>
     </ol>
     <div class="user-info">
-        Anonymous
+        {% if login %}
+            {{ login }}
+        {% else %}
+            Anonymous
+        {% endif %}
     </div>
 {% endblock %}
