@@ -83,7 +83,7 @@
             if (totalCost > 0) {
                 totalElement.innerHTML = `
                     <div class="total-cost-card">
-                        <div class="total-icon">💰</div>
+                        <div class="total-icon">💵</div>
                         <div class="total-info">
                             <div class="total-label">Общая стоимость аренды</div>
                             <div class="total-amount">${totalCost} руб./мес</div>
@@ -367,11 +367,6 @@
         border: 1px solid rgba(102, 126, 234, 0.2);
     }
 
-    .price:before {
-        content: '💰';
-        font-size: 1rem;
-    }
-
     .button-container {
         display: flex;
         gap: 12px;
@@ -484,7 +479,7 @@
     }
 
     .user-info:before {
-        content: '👤';
+        content: '🙋‍♂️';
         font-size: 1.5rem;
     }
 
@@ -500,11 +495,6 @@
         gap: 15px;
         box-shadow: 0 8px 25px rgba(255, 193, 7, 0.15);
         border-left: 5px solid #ffc107;
-    }
-
-    .warning-message:before {
-        content: '⚠️';
-        font-size: 1.5rem;
     }
 
     .total-cost-card {
@@ -645,15 +635,15 @@
 {% endblock %}
 
 {% block main %}
-    <h1>🎯 Аренда офисов</h1>
+    <h1>Аренда офисов</h1>
     
     {% if session.get('login') %}
         <div class="user-info">
-            👋 Вы вошли как: <strong>{{ session.get('login') }}</strong>
+            Вы вошли как: <strong>{{ session.get('login') }}</strong>
         </div>
     {% else %}
         <div class="warning-message">
-            ⚠️ Для бронирования офисов необходимо авторизоваться
+            Для бронирования офисов необходимо авторизоваться
         </div>
     {% endif %}
     
