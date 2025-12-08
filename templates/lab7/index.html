@@ -5,20 +5,260 @@
 {% block script %}
 <script src="{{ url_for('static', filename='lab7/main.js') }}"></script>
 <style>
+    /* Основная таблица */
+    table {
+        border-collapse: separate;
+        border-spacing: 0;
+        width: 100%;
+        max-width: 1000px;
+        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        margin: 0 auto;
+        font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
+
+    /* Заголовок таблицы */
+    thead {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+
+    th {
+        padding: 16px 20px;
+        text-align: left;
+        font-weight: 600;
+        font-size: 15px;
+        letter-spacing: 0.3px;
+        position: relative;
+    }
+
+    th:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 20%;
+        height: 60%;
+        width: 1px;
+        background: rgba(255, 255, 255, 0.2);
+    }
+
+    th[colspan="2"] {
+        text-align: center;
+        font-size: 16px;
+        padding: 18px;
+    }
+
+    /* Ячейки таблицы */
+    td {
+        padding: 14px 20px;
+        text-align: left;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        vertical-align: top;
+        font-size: 14px;
+        color: #2d3748;
+        line-height: 1.5;
+    }
+
+    /* Чередование строк */
+    tbody tr:nth-child(even) {
+        background: rgba(248, 250, 252, 0.5);
+    }
+
+    /* Эффект при наведении на строку */
+    tbody tr {
+        transition: all 0.25s ease;
+    }
+
+    tbody tr:hover {
+        background: linear-gradient(90deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.05) 100%);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Основные кнопки в таблице */
+    button {
+        padding: 8px 16px;
+        border-radius: 8px;
+        border: none;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        margin-right: 8px;
+        letter-spacing: 0.3px;
+        box-shadow: 0 2px 4px rgba(102, 126, 234, 0.2);
+    }
+
+    button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        background: linear-gradient(135deg, #5a6fd8 0%, #6b4290 100%);
+    }
+
+    button:active {
+        transform: translateY(0);
+        box-shadow: 0 1px 2px rgba(102, 126, 234, 0.2);
+    }
+
+    /* Кнопка "Добавить фильм" (основная) */
+    div > button {
+        margin-top: 24px;
+        padding: 12px 24px;
+        font-size: 15px;
+        font-weight: 600;
+        background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        box-shadow: 0 4px 14px rgba(79, 70, 229, 0.3);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    div > button:hover {
+        background: linear-gradient(135deg, #4338ca 0%, #6d28d9 100%);
+        box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+    }
+
+    div > button::before {
+        content: '+';
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    /* Кнопка "Отмена" в модальном окне */
+    .modal button:last-of-type {
+        background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
+        color: #374151;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal button:last-of-type:hover {
+        background: linear-gradient(135deg, #d1d5db 0%, #9ca3af 100%);
+        color: #111827;
+    }
+
+    /* Модальное окно */
     .modal {
         display: none;
-        z-index: 100;
-        box-shadow: 3px 3px 5px black;
-        background: white;
-        width: 400px;
+        position: fixed;
+        z-index: 1000;
+        top: 50%;
         left: 50%;
-        top: 220px;
-        margin-left: -200px;
-        position: absolute;
-        padding: 20px;
+        transform: translate(-50%, -50%);
+        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        width: 460px;
+        padding: 28px 30px 24px;
+        border-radius: 16px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
     }
+
+    .modal::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        border-radius: 16px 16px 0 0;
+    }
+
+    .modal label {
+        display: block;
+        margin-bottom: 16px;
+        font-weight: 500;
+        color: #374151;
+        font-size: 14px;
+    }
+
+    .modal input[type="text"],
+    .modal input[type="number"],
+    .modal textarea {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 10px 14px;
+        border-radius: 10px;
+        border: 2px solid #e5e7eb;
+        font-size: 14px;
+        margin-top: 6px;
+        transition: all 0.25s ease;
+        background: white;
+    }
+
+    .modal textarea {
+        min-height: 90px;
+        resize: vertical;
+        line-height: 1.4;
+    }
+
+    .modal input:focus,
+    .modal textarea:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
+        background: white;
+    }
+
+    .modal i {
+        font-size: 12px;
+        color: #6b7280;
+        font-style: normal;
+        opacity: 0.8;
+        margin-top: 2px;
+        display: block;
+    }
+
+    /* Кнопки в модальном окне */
+    .modal-buttons {
+        display: flex;
+        gap: 12px;
+        margin-top: 24px;
+        justify-content: flex-end;
+    }
+
+    /* Блок ошибки */
     .error-message {
-        color: red;
+        color: #dc2626;
+        margin-top: 6px;
+        font-size: 12px;
+        background: rgba(220, 38, 38, 0.08);
+        border-radius: 6px;
+        padding: 8px 12px;
+        display: none;
+        border-left: 3px solid #dc2626;
+        animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateX(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    /* Заголовки в ячейках для русского названия и описания */
+    td strong {
+        color: #1f2937;
+        font-weight: 600;
+        display: block;
+        margin-bottom: 4px;
+    }
+
+    /* Контейнер для всей страницы */
+    body {
+        padding: 30px;
+        background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+        min-height: 100vh;
+        margin: 0;
     }
 </style>
 {% endblock %}
