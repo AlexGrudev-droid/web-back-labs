@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, abort
 
 lab7 = Blueprint('lab7', __name__)
 
@@ -42,6 +42,28 @@ films = [
         космических путешествий человека и найти планету с \
         подходящими для человечества условиями.'
     },
+    {
+        'title': 'Whiplash',
+        'title_ru': 'Одержимость',
+        'year': 2014,
+        'description': 'Эндрю Ниман, амбициозный молодой джазовый \
+        барабанщик, поступает в консерваторию, где попадает под \
+        влияние Теренса Флетчера — жесткого и бескомпромиссного \
+        преподавателя, чьи пугающие методы заставляют учеников \
+        выходить за пределы своих возможностей. Их отношения \
+        превращаются в психологическую битву, где стремление \
+        к совершенству граничит с одержимостью.'
+    },
+    {
+        'title': 'Parasite',
+        'title_ru': 'Паразиты',
+        'year': 2019,
+        'description': 'Бедная корейская семья, живущая в полуподвале, \
+        хитростью устраивается на работу в богатый дом клана Пак. \
+        Они втираются в доверие к состоятельным хозяевам, но их \
+        безоблачная жизнь неожиданно осложняется, когда обнаруживается \
+        жуткая тайна в глубинах особняка.'
+    }, 
 ]
 
 
@@ -52,32 +74,29 @@ def get_films():
 
 @lab7.route('/lab7/rest-api/films/<int:id>', methods=['GET'])
 def get_film(id):
-    if id <= len(films) - 1:
+    if 0 <= id < len(films):
         return films[id]
     else:
-        return None
-
-
-
-
-
-
-
-
-
+        abort(404)
 
 
 @lab7.route('/lab7/rest-api/films/<int:id>', methods=['DELETE'])
 def del_film(id):
-    del films[id]
-    return '', 204
+    if 0 <= id < len(films):
+        del films[id]
+        return '', 204
+    else:
+        abort(404)
 
 
 @lab7.route('/lab7/rest-api/films/<int:id>', methods=['PUT'])
 def put_film(id):
-    film = request.get_json()
-    films[id] = film
-    return films[id]
+    if 0 <= id < len(films):
+        film = request.get_json()
+        films[id] = film
+        return films[id], 200
+    else:
+        abort(404)
 
 
 @lab7.route('/lab7/rest-api/films/', methods=['PUT'])
