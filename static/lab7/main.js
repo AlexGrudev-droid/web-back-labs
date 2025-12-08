@@ -94,8 +94,8 @@ function addFilm() {
 }
 
 function sendFilm() {
-    const film = {
     const id = document.getElementById('id').value
+    const film = {
         title: document.getElementById('title').value,
         title_ru: document.getElementById('title_ru').value,
         year: document.getElementById('year').value,
