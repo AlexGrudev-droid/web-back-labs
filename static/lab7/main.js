@@ -26,9 +26,11 @@ function fillFilmList() {
 
             let editButton = document.createElement('button');
             editButton.innerText = 'редактировать';
-            editButton.onclick = function() {
-                editFilm(i);
-            };
+            editButton.onclick = (function(filmId) {
+                return function() {
+                    editFilm(filmId);  
+                };
+            })(films[i].id); 
 
             let delButton = document.createElement('button');
             delButton.innerText = 'удалить';
