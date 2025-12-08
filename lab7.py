@@ -5,6 +5,7 @@ from datetime import datetime
 
 lab7 = Blueprint('lab7', __name__)
 
+
 @lab7.route('/lab7/')
 def main():
     return render_template('lab7/index.html')
@@ -113,7 +114,6 @@ def row_to_film(row):
         'year': row[3],
         'description': row[4],
     }
-
 
 
 @lab7.route('/lab7/rest-api/films/', methods=['GET'])

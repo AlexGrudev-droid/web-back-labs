@@ -83,7 +83,6 @@ function cancel() {
     hideModal();
 }
 
-
 function addFilm() {
     document.getElementById('id').value = '';
     document.getElementById('title').value = '';
@@ -94,7 +93,7 @@ function addFilm() {
 }
 
 function sendFilm() {
-    const id = document.getElementById('id').value
+    const id = document.getElementById('id').value;
     const film = {
         title: document.getElementById('title').value,
         title_ru: document.getElementById('title_ru').value,
@@ -124,6 +123,7 @@ function sendFilm() {
 
         // сначала очищаем старые ошибки
         clearErrors();
+
         // title
         if (errors.title_ru) {
             let el = document.getElementById('title_ru-error');
@@ -141,7 +141,6 @@ function sendFilm() {
         }
 
         // description
-
         if (errors.description) {
             const el = document.getElementById('description-error');
             if (el) {
