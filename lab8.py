@@ -1,7 +1,8 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, redirect, session
 from db import db
 from db.models import users, articles
 from flask_login import login_user, login_required, current_user
+from werkzeug.security import check_password_hash, generate_password_hash
 
 
 lab8 = Blueprint('lab8', __name__)
@@ -58,5 +59,7 @@ def article_list():
 @lab8.route('/lab8/logout')
 @login_required
 def logout():
-    logout_user()
+    session.pop('login', None)
+    session.pop('user_id', None)
+    session.pop('real_name', None)
     return redirect('/lab8/')
