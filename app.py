@@ -35,6 +35,7 @@ app.register_blueprint(lab5)
 app.register_blueprint(lab6)
 app.register_blueprint(lab7)
 app.register_blueprint(lab8)
+app.register_blueprint(lab9)
 
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY',
                                           'секретно-секретный ключ')
@@ -79,6 +80,7 @@ def index():
                     <li><a href="/lab6">Лабораторная работа 6</a></li>
                     <li><a href="/lab7">Лабораторная работа 7</a></li>
                     <li><a href="/lab8">Лабораторная работа 8</a></li>
+                    <li><a href="/lab8">Лабораторная работа 9</a></li>
                 </ul>
                 <hr>
                 <footer>
