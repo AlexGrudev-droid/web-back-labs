@@ -18,3 +18,12 @@ class articles(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow,
                            onupdate=datetime.utcnow)
+
+    likes = db.Column(db.Integer)
+
+
+class GiftBox(db.Model):
+    __tablename__ = 'gift_boxes'
+
+    id = db.Column(db.Integer, primary_key=True)
+    opened = db.Column(db.Boolean, default=False, nullable=False)
