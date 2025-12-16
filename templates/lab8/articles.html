@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block lab %}Статьи{% endblock %}
+
+{% block main %}
+
+<h1>Статьи</h1>
+
+{# Кнопка "Создать" только для авторизованных #}
+{% if current_user.is_authenticated %}
+  <a href="/lab8/create" class="create-btn">Создать новую статью</a>
+{% endif %}
+
+{# Поиск по статьям (GET ?q=...) #}
+<form method="get" action="/lab8/articles" class="search-box">
+  <input type="text" name="q" placeholder="Поиск..." value="{{ q or '' }}">
+  <button type="submit">Найти</button>
+  {% if q %}
+    <a href="/lab8/articles">Сброс</a>
+  {% endif %}
+</form>
+
+{% if articles %}
+  {% for article in articles %}
+    <div class="article">
+      <h3>
+        {{ article.title }}
+        {% if article.is_public %}
+          <span class="badge">Публичная</span>
+        {% else %}
+          <span class="badge">Приватная</span>
+        {% endif %}
+      </h3>
+
+      <p>{{ article.article_text[:200] }}{% if article.article_text|length > 200 %}...{% endif %}</p>
+
+      <small>
+        Создано: {{ article.created_at.strftime('%d.%m.%Y %H:%M') }}
+      </small>
+
+      {# Кнопки редактирования/удаления только автору статьи #}
+      {% if current_user.is_authenticated and article.user_id == current_user.id %}
+        <div class="actions" style="margin-top: 10px;">
+          <a href="/lab8/edit/{{ article.id }}" class="btn btn-orange">Редактировать</a>
+          <a href="/lab8/delete/{{ article.id }}" class="btn btn-red"
+             onclick="return confirm('Удалить статью?')">Удалить</a>
+        </div>
+      {% endif %}
+    </div>
+  {% endfor %}
+{% else %}
+  {% if q %}
+    <p>Ничего не найдено по запросу: <b>{{ q }}</b></p>
+  {% else %}
+    <p>Пока нет статей.</p>
+  {% endif %}
+{% endif %}
+
+{% endblock %}

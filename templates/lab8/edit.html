@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block lab %}{% if article %}Редактирование{% else %}Создание{% endif %} статьи{% endblock %}
+
+{% block main %}
+    <h1>{% if article %}Редактирование{% else %}Создание{% endif %} статьи</h1>
+    
+    {% if error %}
+        <div class="error">{{ error }}</div>
+    {% endif %}
+    
+    <form method="post">
+        <div class="form-group">
+            <label>Заголовок:</label>
+            <input type="text" name="title" 
+                   value="{{ article.title if article else '' }}" 
+                   required>
+        </div>
+        
+        <div class="form-group">
+            <label>Текст статьи:</label>
+            <textarea name="article_text" required>{{ article.article_text if article else '' }}</textarea>
+        </div>
+        
+        <div class="checkbox">
+            <input type="checkbox" name="is_public" id="is_public"
+                   {% if article and article.is_public %}checked{% endif %}>
+            <label for="is_public">Публичная статья</label>
+        </div>
+        
+        <button type="submit">
+            {% if article %}Сохранить{% else %}Создать{% endif %}
+        </button>
+    </form>
+{% endblock %}

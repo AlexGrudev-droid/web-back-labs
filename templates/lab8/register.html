@@ -5,7 +5,13 @@
 {% block main %}
     <h1>Регистрация</h1>
 
-    <form action="/lab8/register" method="post">
+    {% if error %}
+        <div style="color: red; margin-bottom: 15px;">
+            {{ error }}
+        </div>
+    {% endif %}
+
+    <form action="/lab8/register" method="post" class="form form-small">
         <div>
             <label>
                 Логин: <input type="text" name="login">
