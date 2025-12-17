@@ -26,4 +26,10 @@ class GiftBox(db.Model):
     __tablename__ = 'gift_boxes'
 
     id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100))  
+    image_url = db.Column(db.String(200))  
     opened = db.Column(db.Boolean, default=False, nullable=False)
+    requires_login = db.Column(db.Boolean, default=False)  
+    
+    def __repr__(self):
+        return f'<GiftBox {self.id}: {self.title}, opened={self.opened}>'
